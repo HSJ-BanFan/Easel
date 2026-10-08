@@ -4,7 +4,7 @@
 
 JSON 只接受 `title`、`content`、`content_format`、`hashtags`、`topic_ids`、`images`、`post_type`、`original`。
 标题和正文为字符串；`content_format` 是 `text` 或 `html`，`hashtags` 是字符串数组，`topic_ids` 是仅含 ASCII 数字的字符串数组。
-`images` 是本地图片路径数组，相对路径以 spec 所在目录为准。`post_type` 是 1 或 3，`original` 是布尔值。
+`images` 是本地图片路径数组，相对路径以 spec 所在目录为准。`post_type` 是字符串 "1" 或 "3"，`original` 是布尔值。
 工具包会检查实际字段与图片再创建操作目录。精确限制以 [上游发布说明](../vendor/xiaoheihe-publisher/references/publishing.md) 为准。
 
 ```json
@@ -14,7 +14,7 @@ JSON 只接受 `title`、`content`、`content_format`、`hashtags`、`topic_ids`
   "content_format": "text",
   "hashtags": ["独立游戏"],
   "images": ["../cover.png"],
-  "post_type": 1,
+  "post_type": "1",
   "original": true
 }
 ```
@@ -45,12 +45,11 @@ Easel 对 `show` 返回的冻结标题、正文、标签执行 `content_guard.gu
 |-------|--------------|
 | prepared | 本地计划已准备，无线上写入 |
 | acknowledged | 服务端创建已应答，尚未验证完整结果或公开可见性 |
-| verified_draft | 已按回执证据验证自己的服务器草稿 |
-| verified_public | 仅按回执明确说明的证据范围报告验证结果 |
 | outcome_unknown | 可能已写入，禁止重试；只读核对自己的草稿或帖子 |
 | refused | 校验或权限门禁拒绝，按具体回执处理 |
 
 退出码 0 也可能只是 `acknowledged`，不能据此标记公开发布成功。
+当前工具包不输出 `verified_draft` 或 `verified_public`。独立核验结果应另外记录，不改写创建回执为完整验证。
 退出码 2 表示拒绝，3 表示结果未知，Easel 内容门禁以 7 阻止敏感信息外发。
 `reconcile` 只核对现有操作，不创建新帖子，不清除 `attempt.json`。
 一个操作目录最多调用一次发布，不是服务端全局 exactly-once。账号配置在外部并发改变仍属于明确限制。

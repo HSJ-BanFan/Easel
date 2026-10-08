@@ -3,9 +3,9 @@
   "files": {
     "LICENSE": "6ad220b8dbff857ab6579903d8d4d5912bab9f99e0e03f63d317c04fbe6544c5",
     "SKILL.md": "1516edc99902c43f070adfaeeeaa74548e4f2a9c574bd7d8c6043bf734050b46",
-    "kit-manifest.json": "d22fdc78a9204beb0e3b77a357e12b235834bb0eadd3262c7d0f594e23b4f466",
+    "kit-manifest.json": "4fd56ef16fadb56c8feb76497a3982fb74c7632d0b0017c6d3b7096ca8b7ea9a",
     "references/publishing.md": "582aec9a22153e6cb83f100abc57146e9aa905d4c793fcfead51832f755b1036",
-    "references/setup.md": "64c3bb70254fa53bfe934277362d7c580b9e011b4e8160d211147f1120076fba",
+    "references/setup.md": "bc640227f463f67bb6e00e424c22023b728f7b807150a6462ac2129a58a3cca2",
     "runtime/xhh_sdk-0.5.0rc4+standalone.7.dist-info/METADATA": "ba8cd801b2d785902ace6e0604d777c58f871b438438163793ef8a840f54b896",
     "runtime/xhh_sdk-0.5.0rc4+standalone.7.dist-info/RECORD": "a7271c061ee025a1b01001fdb69b7dd17f597e54c4c04954a9d7991a17e51566",
     "runtime/xhh_sdk-0.5.0rc4+standalone.7.dist-info/WHEEL": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1",
@@ -35,8 +35,8 @@
     "scripts/xhh_publish.py": "75324779e6ec77466796f37894b8fa966ef40faddfa98d115386e65c8d674c59"
   },
   "kit_version": "0.1.0rc1",
-  "manifest_sha256": "d22fdc78a9204beb0e3b77a357e12b235834bb0eadd3262c7d0f594e23b4f466",
-  "source_commit": "f60eff73b451b8b7c7b88147a4b61ce993872bef",
+  "manifest_sha256": "4fd56ef16fadb56c8feb76497a3982fb74c7632d0b0017c6d3b7096ca8b7ea9a",
+  "source_commit": "0f8a03d006dc5ed2e5d806b57e1f147a03af1420",
   "source_url": "https://github.com/HSJ-BanFan/xiaoheihe-api-collect",
   "wheel_sha256": "2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff"
 }

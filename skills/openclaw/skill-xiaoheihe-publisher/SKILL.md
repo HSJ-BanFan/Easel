@@ -20,7 +20,7 @@ layer: publish
 ## 输出
 
 写入 `outputs/<具体主题>/assets/<操作目录>/` 的冻结计划、图片副本和回执。
-只有 `verified_public` 才可记作公开发布成功。`acknowledged` 只表示创建得到应答。
+`acknowledged` 只表示创建得到应答。公开可见与内容一致需要独立核验，当前工具包不输出完整验证状态。
 本技能不自动写发布日历。
 
 ## 执行步骤

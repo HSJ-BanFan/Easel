@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 
@@ -90,6 +92,12 @@ def main(argv: list[str] | None = None) -> int:
                 return refuse("Approval does not match the frozen plan")
             spec = frozen["spec"]
             parts = [spec.get("title", ""), spec.get("content", ""), *spec.get("hashtags", [])]
+            if spec.get("content_format") == "html":
+                parts.append(html.unescape(re.sub(r"<[^>]+>", "", spec["content"])))
+                markup = re.sub(r"<br\s*/?>", "\n", spec["content"], flags=re.I)
+                markup = re.sub(r"</(?:p|h[1-6]|li|blockquote|div)>", "\n", markup, flags=re.I)
+                visible = html.unescape(re.sub(r"<[^>]+>", "", markup))
+                parts.extend([visible, visible.replace("\n", " ").strip()[:100]])
             content_guard.guard_or_die(parts, exec_mode=True, label="Xiaoheihe outgoing content")
             dispatched = True
             return emit(run_kit(script, ["submit", str(operation), "--approval", args.approval,

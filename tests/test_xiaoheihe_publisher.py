@@ -1,11 +1,10 @@
-"""Consumer adapter tests use a synthetic offline kit, never platform accounts."""
-
 from __future__ import annotations
 
 import importlib.util
 import base64
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -79,6 +78,21 @@ def test_guard_refuses_frozen_outgoing_content_before_submit(consumer, field):
     adapter = load_module(adapter, "easel_xhh_adapter")
     value = "EASEL_ROOT"
     plan["spec"][field] = [value] if field == "hashtags" else value
+    (op / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    with pytest.raises(SystemExit) as exc:
+        adapter.main(["submit", str(op), "--approval", DIGEST, "--exec"])
+    assert exc.value.code == 7
+    assert calls(kit) == [["show", str(op)]]
+
+
+@pytest.mark.parametrize("content", [
+    "<p>EASEL&#95;ROOT</p>", "<p>EASEL_<b>ROOT</b></p>",
+    "<p>Bearer</p><p>abcdefghijklmnopqrstuvwx</p>",
+])
+def test_guard_scans_rendered_html_before_submit(consumer, content):
+    adapter, kit, op, plan = consumer
+    adapter = load_module(adapter, "easel_xhh_adapter")
+    plan["spec"].update(content=content, content_format="html")
     (op / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
     with pytest.raises(SystemExit) as exc:
         adapter.main(["submit", str(op), "--approval", DIGEST, "--exec"])
@@ -183,6 +197,29 @@ def test_web_skill_discovery_keeps_native_platform_backends_unchanged(monkeypatc
     assert found["layer"] == "publish"
     assert "小黑盒" in found["description"]
     assert "xiaoheihe" not in app.LOGIN_RUNNERS
+
+
+def test_documented_spec_plans_with_the_real_bundled_cli(tmp_path):
+    folder = ROOT / "skills/openclaw" / SKILL
+    guide = (folder / "references/publishing.md").read_text(encoding="utf-8")
+    snippet = re.search(r"```json\s*\n(.*?)\n```", guide, re.S).group(1)
+    spec = json.loads(snippet)
+    (tmp_path / "cover.png").write_bytes(base64.b64decode(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII="))
+    inputs = tmp_path / "assets"
+    inputs.mkdir()
+    input_path = inputs / "post.json"
+    input_path.write_text(snippet, encoding="utf-8")
+    script = folder / "vendor/xiaoheihe-publisher/scripts/xhh_publish.py"
+    result = subprocess.run(
+        [sys.executable, "-I", str(script), "plan", str(input_path),
+         "--account", "offline-test", "--mode", "draft", "--out", str(tmp_path / "operation")],
+        capture_output=True, text=True, encoding="utf-8", timeout=30,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    frozen = json.loads((tmp_path / "operation/plan.json").read_text(encoding="utf-8"))
+    assert frozen["spec"]["content"] == spec["content"]
+    assert frozen["spec"]["post_type"] == "1"
 
 
 @pytest.mark.parametrize("configured", [True, False])
