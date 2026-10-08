@@ -1,0 +1,36 @@
+name: Sync upstream main
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: sync-upstream-main
+  cancel-in-progress: false
+
+jobs:
+  sync-main:
+    name: Fast-forward fork main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Sync main from ZJU-REAL/Easel
+        env:
+          GH_TOKEN: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GH_TOKEN" ]]; then
+            echo "::error::Add the repository secret UPSTREAM_SYNC_TOKEN with Contents: write and Workflows: write access to HSJ-BanFan/Easel."
+            exit 1
+          fi
+
+          response="$RUNNER_TEMP/upstream-sync.json"
+          if gh api --method POST "repos/${GITHUB_REPOSITORY}/merge-upstream" --field branch=main > "$response"; then
+            cat "$response" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::GitHub could not fast-forward main. Check the API error above; resolve any divergence on main before rerunning."
+            exit 1
+          fi
