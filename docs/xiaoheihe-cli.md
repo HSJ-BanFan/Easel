@@ -29,7 +29,7 @@ python skills/shared/scripts/xiaoheihe_publish.py reconcile outputs/game-review/
 - 内置 `xhh-publisher-kit 0.1.0rc1`，原 CLI `0.5.0rc4+standalone.7`。
 - 原 CLI 的 25 个 wheel 成员逐字节保留，`vendor/SOURCE.json` 记录完整来源和文件哈希。
 - Kit 修正图片提交形态，先上传冻结图片，再把返回 URL 与尺寸写入 HTML 正文，最后调用原 CLI 发帖。
-- 快照升级只用 `python scripts/sync_xiaoheihe_kit.py sync`，检查用 `python scripts/sync_xiaoheihe_kit.py check`。不要手改 vendor。
+- 快照升级使用[完整同步命令](../skills/openclaw/skill-xiaoheihe-publisher/EASEL-META.md)，提供 `--from` 和 `--source-commit`；检查用 `python scripts/sync_xiaoheihe_kit.py check`。不要手改 vendor。
 - 上游包采用 MIT，Easel 适配采用本仓库 Apache-2.0；许可证保留在对应目录。
 
 ## 本轮验收
