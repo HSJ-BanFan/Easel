@@ -28,9 +28,14 @@ jobs:
           fi
 
           response="$RUNNER_TEMP/upstream-sync.json"
-          if gh api --method POST "repos/${GITHUB_REPOSITORY}/merge-upstream" --field branch=main > "$response"; then
+          if gh api --method POST "repos/${GITHUB_REPOSITORY}/merge-upstream" --field branch=main > "$response" 2>&1; then
             cat "$response" | tee -a "$GITHUB_STEP_SUMMARY"
           else
-            echo "::error::GitHub could not fast-forward main. Check the API error above; resolve any divergence on main before rerunning."
+            if grep -Eiq 'without .?workflow.? scope or permission|workflow files' "$response"; then
+              echo "::error::The sync token needs Workflows: write permission because upstream changed a workflow file."
+            else
+              echo "::error::GitHub could not fast-forward main. Check the API error above; resolve any divergence on main before rerunning."
+            fi
+            cat "$response"
             exit 1
           fi
