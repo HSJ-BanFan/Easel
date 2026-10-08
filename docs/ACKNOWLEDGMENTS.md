@@ -65,6 +65,7 @@ Easel 的 SKILL 集合在自研基础上，参考、改编或借鉴了大量优�
 
 | 项目 | 用于 SKILL | 借鉴点 |
 |------|-----------|--------|
+| [HSJ-BanFan/xiaoheihe-api-collect](https://github.com/HSJ-BanFan/xiaoheihe-api-collect) | skill-xiaoheihe-publisher | 原字节内置 xhh-publisher-kit 0.1.0rc1 与 xhh-sdk 0.5.0rc4+standalone.7；许可随包保留，精确来源与更新见 [EASEL-META.md](../skills/openclaw/skill-xiaoheihe-publisher/EASEL-META.md)；Easel 增加输出路径和内容门禁，不含私有签名二进制或账号 |
 | [WJZ-P/douyin-upload-mcp-skill](https://github.com/WJZ-P/douyin-upload-mcp-skill) | skill-douyin-upload | 原始来源：抖音发布 MCP |
 | [jiji262/wechat-publisher](https://github.com/jiji262/wechat-publisher) | skill-wechat-publisher | 原始来源：公众号发布 |
 | [lucasygu/redbook](https://github.com/lucasygu/redbook) | skill-xhs-analyzer | 原始来源：小红书分析 CLI |

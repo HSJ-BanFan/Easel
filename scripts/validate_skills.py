@@ -25,6 +25,9 @@ LEGACY_OUTPUT_DIRS = {
     "video-intro-outro", "video-reframe", "video-to-article", "voice-clone",
 }
 PUBLISH_SCRIPT_CONTRACTS = {
+    "skills/shared/scripts/xiaoheihe_publish.py": (
+        "content_guard.guard_or_die", 'add_argument("--exec"', "validate_output_path",
+    ),
     "skills/openclaw/skill-bilibili-upload/scripts/bili_upload.py": (
         "content_guard.guard_or_die", 'add_argument("--exec"',
     ),

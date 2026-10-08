@@ -1,0 +1,2 @@
+[console_scripts]
+xhh-sdk = xhh_sdk.cli:main

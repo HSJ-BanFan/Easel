@@ -26,6 +26,9 @@ import sys
 # 平台注册表：约束 + 对应发布 SKILL
 # title/body 上限为字符数；0 表示无硬限或不适用。aspect 为推荐视频比例。
 PLATFORMS: dict[str, dict] = {
+    "xiaoheihe": {"publisher": "skill-xiaoheihe-publisher", "types": ["article", "image"],
+                  "title": 0, "body": 0, "tags": 0, "aspect": "-",
+                  "note": "小黑盒图文；长度上限未核实；显式账号；先冻结预览，确认后上传并保存草稿或公开发布"},
     "xiaohongshu": {"publisher": "skill-xhs-publisher", "types": ["image", "video"],
                     "title": 20, "body": 1000, "tags": 10, "aspect": "3:4/9:16",
                     "note": "标题≤20字；图 3:4 或 1:1，视频竖版；话题#放正文"},
