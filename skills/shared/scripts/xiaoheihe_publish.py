@@ -13,7 +13,7 @@ import subprocess
 import sys
 
 import content_guard
-from output_paths import validate_output_path
+from output_paths import OutputPathError, validate_output_path
 
 
 def kit_script() -> Path:
@@ -103,6 +103,8 @@ def main(argv: list[str] | None = None) -> int:
             return emit(run_kit(script, ["submit", str(operation), "--approval", args.approval,
                                          "--confirm"]))
         return emit(run_kit(script, [args.command, str(operation)]))
+    except OutputPathError:
+        return refuse("Use outputs/<specific-topic>/assets/<operation>; system directories such as _scratch are not allowed")
     except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return refuse("Unable to validate or run the kit; inspect the operation before continuing",
                       unknown=dispatched)

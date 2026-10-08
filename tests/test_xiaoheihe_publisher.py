@@ -72,6 +72,15 @@ def test_submit_requires_explicit_exec_before_any_child(consumer):
     assert calls(kit) == []
 
 
+def test_system_output_refusal_explains_the_allowed_path(consumer, tmp_path, capsys):
+    adapter, kit, _, _ = consumer
+    adapter = load_module(adapter, "easel_xhh_adapter")
+    result = adapter.main(["show", str(tmp_path / "outputs/_scratch/operation")])
+    assert result == 2
+    assert "outputs/<specific-topic>/" in json.loads(capsys.readouterr().out)["reason"]
+    assert calls(kit) == []
+
+
 @pytest.mark.parametrize("field", ["title", "content", "hashtags"])
 def test_guard_refuses_frozen_outgoing_content_before_submit(consumer, field):
     adapter, kit, op, plan = consumer

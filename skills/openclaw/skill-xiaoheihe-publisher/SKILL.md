@@ -26,7 +26,7 @@ layer: publish
 ## 执行步骤
 
 1. 先确认 `EASEL_ROOT` 并在 Easel 项目根执行文档命令。工作区副本的路径说明见 [运行与账号](references/setup.md)。
-2. 首次使用先读 [运行与账号](references/setup.md)。用随包 `vendor/xiaoheihe-publisher/scripts/xhh_cli.py` 检查版本、配置用户自备签名资源并完成真实登录；不要把手机号、验证码、账号存储或签名资源放入项目。
+2. 用随包 `vendor/xiaoheihe-publisher/scripts/xhh_cli.py` 检查版本。离线 plan/show 不需要登录；准备执行线上操作时先读 [运行与账号](references/setup.md)，配置用户自备签名资源并完成真实登录。不要把手机号、验证码、账号存储或签名资源放入项目。
 3. 整理非敏感发布 spec。格式和结果语义见 [发布与核对](references/publishing.md)。每次新内容使用新操作目录。
 4. 先离线冻结，未执行上传或发布。
 
