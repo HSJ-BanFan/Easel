@@ -6,6 +6,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import platform
 import shutil
 import subprocess
 import sys
@@ -185,7 +186,8 @@ def private_snapshot(private):
 @pytest.mark.parametrize("mode,reason", [
     ("help", None),
     ("no-confirm", "confirmation_required"),
-    ("wrong-apk", "unsupported_apk"),
+    ("wrong-apk", "unsupported_apk" if sys.platform == "win32"
+     and platform.machine().lower() in {"amd64", "x86_64"} else "unsupported_platform"),
     ("tampered-kit", "kit_integrity_failed"),
 ])
 def test_real_copied_setup_refuses_before_side_effects(portable_kit, mode, reason):
