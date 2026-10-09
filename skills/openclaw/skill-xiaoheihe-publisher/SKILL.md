@@ -1,7 +1,7 @@
 ---
 name: skill-xiaoheihe-publisher
 description: >-
-  当用户要登录小黑盒账号、上传自己的图片、预览小黑盒图文、保存服务器草稿或确认公开发帖时使用。
+  当用户要导入自己的小黑盒 APK 配置签名器、登录小黑盒账号、上传自己的图片、预览小黑盒图文、保存服务器草稿或确认公开发帖时使用。
   通过随包原版 CLI 管理账号与签名，通过 Easel 门禁冻结并提交经确认的内容，支持结果核对且不自动重发。
   不用于其他平台、批量互动或原生 Web 账号管理页；离线计划不等于已上传、已发帖或公开可见。
 layer: publish
@@ -26,7 +26,13 @@ layer: publish
 ## 执行步骤
 
 1. 先确认 `EASEL_ROOT` 并在 Easel 项目根执行文档命令。工作区副本的路径说明见 [运行与账号](references/setup.md)。
-2. 用随包 `vendor/xiaoheihe-publisher/scripts/xhh_cli.py` 检查版本。离线 plan/show 不需要登录；准备执行线上操作时先读 [运行与账号](references/setup.md)，配置用户自备签名资源并完成真实登录。不要把手机号、验证码、账号存储或签名资源放入项目。
+2. 用随包 `vendor/xiaoheihe-publisher/scripts/xhh_cli.py` 检查版本。首次签名配置先读 [运行与账号](references/setup.md)，用以下一条命令导入用户自己的受支持 APK。Windows x86_64，Python 3.10+；无需 Maven、Git、JDK 或模型参与。`--install-java` 允许缺少合适 Java 时下载私有 JRE。必须先获得用户对本地导入和自检的确认。
+
+```bash
+python skills/shared/scripts/xiaoheihe_setup.py --apk "<用户APK路径>" --install-java --confirm
+```
+
+如需绑定，显式增加 `--account <已有账号别名>`；不指定则只安装签名器，不新建或选择账号。`ready` 只证明合成签名自检通过，不表示已登录。离线 plan/show 不需要登录；线上操作前按运行说明单独完成账号配置和真实登录。不要把手机号、验证码、账号存储或签名资源放入项目。
 3. 整理非敏感发布 spec。格式和结果语义见 [发布与核对](references/publishing.md)。每次新内容使用新操作目录。
 4. 先离线冻结，未执行上传或发布。
 

@@ -21,8 +21,12 @@ docker/data/
 # IDE
 .idea/
 *.swp
+
 *.swo
 *~
+
+# Recoverable Xiaoheihe vendor sync transactions; never distribute old/staged kits.
+skills/openclaw/skill-xiaoheihe-publisher/.vendor.xhh-*
 
 # OS
 .DS_Store
